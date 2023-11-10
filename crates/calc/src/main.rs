@@ -1,6 +1,8 @@
+use crate::lexer::lex;
+
 mod lexer;
 mod token;
 
 fn main() {
-    println!("{}","\"");
+    println!("{:?}",lex("100+".to_string()))
 }

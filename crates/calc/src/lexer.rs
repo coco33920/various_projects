@@ -13,6 +13,7 @@ pub fn is_an_allowed_char(character: char) -> bool {
         || character == ')'
         || character == '"'
         || character == '.'
+        || character == '='
 }
 
 
@@ -54,21 +55,22 @@ pub fn lex(input: String) -> Vec<Token> {
     let mut chars = input.as_str().chars().collect::<Vec<char>>();
 
     let length = input.len();
-
     while current_pos < input.len() {
         let current_character: char = chars.get(current_pos).unwrap().to_ascii_lowercase();
         if !is_an_allowed_char(current_character) {
+            current_pos+=1;
             continue;
         };
 
         match current_character {
-            '+' => vec.push(Token::OPE(PLUS)),
-            '-' => vec.push(Token::OPE(MINUS)),
-            '*' => vec.push(Token::OPE(MULTIPLICATION)),
-            '/' => vec.push(Token::OPE(DIVIDE)),
-            ')' => vec.push(Token::RPAR),
-            '(' => vec.push(Token::LPAR),
-            '"' => vec.push(Token::QUOTE),
+            '+' => {vec.push(Token::OPE(PLUS)); current_pos+=1},
+            '-' => {vec.push(Token::OPE(MINUS));current_pos+=1},
+            '*' => {vec.push(Token::OPE(MULTIPLICATION));current_pos+=1},
+            '/' => {vec.push(Token::OPE(DIVIDE));current_pos+=1},
+            ')' => {vec.push(Token::RPAR);current_pos+=1},
+            '(' => {vec.push(Token::LPAR);current_pos+=1},
+            '"' => {vec.push(Token::QUOTE);current_pos+=1},
+            '=' => {vec.push(Token::EQUAL);current_pos+=1},
             ch => {
                 if ch.is_numeric() {
                     let (a, b) = lex_int(current_character, &mut chars, current_pos, length);
@@ -91,6 +93,7 @@ pub fn lex(input: String) -> Vec<Token> {
 mod tests {
     use crate::lexer::lex;
     use crate::token::Operator::*;
+    use crate::token::Token;
     use crate::token::Token::*;
 
     #[test]
@@ -161,6 +164,13 @@ mod tests {
         assert_eq!(result, expected)
     }
 
+    #[test]
+    fn lex_equal() {
+        let mut expected = Vec::new();
+        expected.push(EQUAL);
+        let result = lex("=".to_string());
+        assert_eq!(result,expected);
+    }
 
     #[test]
     fn lex_tokens() {
@@ -168,7 +178,8 @@ mod tests {
         expected.push(LPAR);
         expected.push(RPAR);
         expected.push(QUOTE);
-        let result = lex("()\"".to_string());
+        expected.push(EQUAL);
+        let result = lex("()\"=".to_string());
         assert_eq!(result, expected)
     }
 
@@ -194,6 +205,26 @@ mod tests {
         expected.push(STR("test".to_string()));
         let result = lex("test".to_string());
         assert_eq!(result,expected);
+    }
+
+    #[test]
+    fn test_complex_operation() {
+        let mut expected = Vec::new();
+        expected.push(INT(1));
+        expected.push(OPE(PLUS));
+        expected.push(INT(1));
+        let result = lex("1 + 1".to_string());
+        assert_eq!(result,expected);
+    }
+
+    #[test]
+    fn test_complex_equality() {
+        let mut expected = Vec::new();
+        expected.push(STR("var1".to_string()));
+        expected.push(EQUAL);
+        expected.push(INT(100));
+        let result = lex("var1 = 100".to_string());
+        assert_eq!(result,expected)
     }
 }
 
