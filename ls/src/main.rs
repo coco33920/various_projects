@@ -51,35 +51,57 @@ fn parse_arg(arg: &str) -> Option<LsArg> {
 }
 
 fn ls(dir: String, options: &Vec<LsArg>) {
+    let mut files: Vec<String> = Vec::new();
+    let mut dirs: Vec<String> = Vec::new();
     let _ = read_dir(dir)
         .unwrap()
-        .for_each(|file| { print_dir_entry(file.unwrap(), options) });
+        .for_each(|file| {
+            let (a,b) = print_dir_entry(file.unwrap(),options);
+            match a {
+                Some(str) => files.push(str),
+                None => ()
+            };
+            match b {
+                Some(str) => dirs.push(str),
+                None => ()
+            };
+        });
+    for dir in dirs {
+        println!("{dir}");
+    }
+    for file in files {
+        println!("{file}");
+    }
 }
 
-fn print_dir_entry(entry: DirEntry, options: &Vec<LsArg>) {
+fn option_string(file_name: String, is_dir: bool) -> (Option<String>, Option<String>) {
+    if is_dir { return (None, Some(file_name)); } else { return (Some(file_name), None); }
+}
+
+fn print_dir_entry(entry: DirEntry, options: &Vec<LsArg>) -> (Option<String>, Option<String>) {
     let file_name = entry.file_name()
         .into_string()
         .unwrap()
         .replace("\"", "");
-    let file_type = entry.file_type()
+    let is_dir = entry.file_type()
         .unwrap()
         .is_dir();
 
     let binding = {
-        let color = if file_type { ansi_term::Colour::Blue.normal() } else { ansi_term::Colour::White.normal() };
+        let color = if is_dir { ansi_term::Colour::Blue.normal() } else { ansi_term::Colour::White.normal() };
         color.paint(&file_name)
     };
 
     if options.len() == 0 {
-        println!("{file_name}");
-        return;
+        return option_string(file_name, is_dir);
     }
-
+    let mut a: (Option<String>, Option<String>) = (None, None);
     options.iter().for_each(|x| {
         match x {
-            COLOR => println!("{binding}"),
-            SORT => println!("{file_name}")
+            COLOR => a = option_string(binding.to_string(), is_dir),
+            SORT => a = (None, None)
         }
     });
+    a
 }
 
