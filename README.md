@@ -95,11 +95,11 @@ Calc: a minimalistic calculator built for educational purpose only.
 
 TODO List
 
-- [ ] Lexing of basic operations
+- [X] Lexing of basic operations
   - [X] Lexing operators
   - [X] Lexing lpar,rpar,quote
   - [X] Lexing int
-  - [ ] Lexing floats
+  - [X] Lexing floats
   - [X] Lexing strings
 - [ ] Parsing of basic operations
   - [ ] sum operation

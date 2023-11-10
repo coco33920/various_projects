@@ -13,6 +13,7 @@ pub enum Token {
     OPE(Operator),
     STR(String),
     INT(i64),
+    FLOAT(f64),
     EQUAL,
     RPAR,
     LPAR,
@@ -49,6 +50,7 @@ impl Display for Token {
             Token::RPAR => write!(f, ")"),
             Token::QUOTE => write!(f, "\""),
             Token::EQUAL => write!(f,"="),
+            Token::FLOAT(i) => write!(f,"{}",i),
             Token::INT(i) => write!(f, "{}", i),
             Token::STR(s) => write!(f, "{}", s),
             Token::OPE(s) => write!(f, "{}", s)
@@ -63,6 +65,7 @@ impl PartialEq<Self> for Token {
             (Token::RPAR, Token::RPAR) => true,
             (Token::QUOTE, Token::QUOTE) => true,
             (Token::EQUAL,Token::EQUAL) => true,
+            (Token::FLOAT(i),Token::FLOAT(i2)) => i == i2,
             (Token::INT(i), Token::INT(i2)) => i == i2,
             (Token::STR(s), Token::STR(s2)) => s == s2,
             (Token::OPE(o), Token::OPE(p)) => o == p,
