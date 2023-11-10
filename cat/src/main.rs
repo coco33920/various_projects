@@ -22,7 +22,7 @@ fn main() {
     };
 }
 
-fn cat(file: String) -> Result<(),Box<dyn Error>> {
+fn cat(file: String) -> Result<(), Box<dyn Error>> {
     let content = read_to_string(file)?;
     println!("{content}");
     Ok(())

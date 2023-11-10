@@ -113,4 +113,3 @@ fn print_dir_entry(entry: DirEntry, options: &Vec<LsArg>) -> (Option<String>, Op
     });
     a
 }
-
