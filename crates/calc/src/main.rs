@@ -22,7 +22,7 @@ fn main() {
         handle.read_line(&mut buffer).expect("TODO: panic message");
         match buffer.as_str().trim() {
             "info" => {
-                let message = Color::Purple.paint(" Calc v0.1.0 \n Author: Charlotte Thomas \n Written in Rust \n Repo: https://github.com/coco33920/various_project\n");
+                let message = Color::Purple.paint(" Calc v0.1.0 \n Author: Charlotte Thomas \n Written in Rust \n Repo: https://github.com/coco33920/various_projects\n");
                 println!("{}", message)
             }
             "exit" => break,
