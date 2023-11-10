@@ -1,5 +1,6 @@
 use std::env;
 use std::env::Args;
+use std::fmt::{Display, Formatter, write};
 use std::fs::{DirEntry, read_dir};
 use std::process::exit;
 use crate::LsArg::{COLOR, SORT};
@@ -7,6 +8,15 @@ use crate::LsArg::{COLOR, SORT};
 enum LsArg {
     COLOR,
     SORT,
+}
+
+impl Display for LsArg {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match &self {
+            COLOR => write!(f, "{}", "COLOR"),
+            SORT => write!(f, "{}", "SORT")
+        }
+    }
 }
 
 fn main() {
@@ -20,24 +30,22 @@ fn main() {
     let ls_args = parse_args(args);
 
     match dir {
-        Some(name) => ls(name),
+        Some(name) => ls(name,&ls_args),
         None => println!("Error!")
     };
 }
 
 fn parse_args(args: Args) -> Vec<LsArg> {
     let mut ls_args: Vec<LsArg> = Vec::new();
-    if args.len() > 2 {
-        args.for_each(
-            |arg| {
-                let argument = parse_arg(&arg);
-                match argument {
-                    Some(option) => ls_args.push(option),
-                    None => ()
-                }
+    args.for_each(
+        |arg| {
+            let argument = parse_arg(&arg);
+            match argument {
+                Some(option) => ls_args.push(option),
+                None => ()
             }
-        )
-    }
+        }
+    );
     ls_args
 }
 
@@ -51,18 +59,38 @@ fn parse_arg(arg: &str) -> Option<LsArg> {
     }
 }
 
-fn ls(dir: String) {
-    let files = read_dir(dir).unwrap();
-    for file in files {
-        print_dir_entry(file.unwrap())
-    }
+fn ls(dir: String, options: &Vec<LsArg>) {
+    let _ = read_dir(dir)
+        .unwrap()
+        .for_each(|file| { print_dir_entry(file.unwrap(), options) });
 }
 
-fn print_dir_entry(entry: DirEntry) {
+fn print_dir_entry(entry: DirEntry, options: &Vec<LsArg>) {
     let file_name = entry.file_name()
         .into_string()
         .unwrap()
         .replace("\"", "");
-    println!("{file_name}");
+    let file_type = entry.file_type()
+        .unwrap()
+        .is_dir();
+
+    let binding = {
+        let color = if file_type { ansi_term::Colour::Blue.normal() } else { ansi_term::Colour::White.normal() };
+        color.paint(&file_name)
+    };
+
+    if options.len() == 0 {
+        println!("{file_name}");
+        return;
+    }
+
+    options.iter().for_each(|x| {
+        match x {
+            COLOR => println!("{binding}"),
+            SORT => println!("{file_name}")
+        }
+    });
+
+
 }
 
