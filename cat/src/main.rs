@@ -1,5 +1,6 @@
 use std::env;
 use std::env::Args;
+use std::fs::{read_to_string};
 use std::process::exit;
 
 fn main() {
@@ -15,6 +16,7 @@ fn main() {
     };
 }
 
-fn cat(file: String) -> Unit {
-
+fn cat(file: String) {
+    let file_read = read_to_string(file).unwrap();
+    print!("{file_read}")
 }
