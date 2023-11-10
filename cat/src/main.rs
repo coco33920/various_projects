@@ -1,6 +1,6 @@
 use std::env;
 use std::env::Args;
-use std::fs::{read_to_string};
+use std::fs::read_to_string;
 use std::process::exit;
 
 fn main() {

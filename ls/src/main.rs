@@ -1,22 +1,13 @@
 use std::env;
 use std::env::Args;
-use std::fmt::{Display, Formatter, write};
 use std::fs::{DirEntry, read_dir};
 use std::process::exit;
+
 use crate::LsArg::{COLOR, SORT};
 
 enum LsArg {
     COLOR,
     SORT,
-}
-
-impl Display for LsArg {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match &self {
-            COLOR => write!(f, "{}", "COLOR"),
-            SORT => write!(f, "{}", "SORT")
-        }
-    }
 }
 
 fn main() {
@@ -30,7 +21,7 @@ fn main() {
     let ls_args = parse_args(args);
 
     match dir {
-        Some(name) => ls(name,&ls_args),
+        Some(name) => ls(name, &ls_args),
         None => println!("Error!")
     };
 }
@@ -90,7 +81,5 @@ fn print_dir_entry(entry: DirEntry, options: &Vec<LsArg>) {
             SORT => println!("{file_name}")
         }
     });
-
-
 }
 
