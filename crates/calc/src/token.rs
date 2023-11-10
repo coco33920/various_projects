@@ -9,6 +9,7 @@ pub enum Operator {
 }
 
 #[derive(Debug)]
+#[warn(unsafe_code)]
 pub enum Token {
     OPE(Operator),
     STR(String),

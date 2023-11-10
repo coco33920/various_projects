@@ -9,10 +9,12 @@ pub fn is_an_allowed_char(character: char) -> bool {
         || character == '/'
         || character == '('
         || character == ')'
+        || character == '"'
 }
 
 
 pub fn lex(input: String) -> Vec<Token> {
+    println!("{input}");
     let mut vec: Vec<Token> = Vec::new();
 
     let chars = input.as_str().chars();
@@ -27,6 +29,9 @@ pub fn lex(input: String) -> Vec<Token> {
             '-' => vec.push(Token::OPE(MINUS)),
             '*' => vec.push(Token::OPE(MULTIPLICATION)),
             '/' => vec.push(Token::OPE(DIVIDE)),
+            ')' => vec.push(Token::RPAR),
+            '(' => vec.push(Token::LPAR),
+            '"' => vec.push(Token::QUOTE),
             _ => ()
         }
     }
@@ -37,8 +42,8 @@ pub fn lex(input: String) -> Vec<Token> {
 #[cfg(test)]
 mod tests {
     use crate::lexer::lex;
-    use crate::token::Token::*;
     use crate::token::Operator::*;
+    use crate::token::Token::*;
 
     #[test]
     fn lex_plus() {
@@ -82,6 +87,41 @@ mod tests {
         expected.push(OPE(DIVIDE));
         let result = lex("+*-/".to_string());
         assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn lex_lpar() {
+        let mut expected = Vec::new();
+        expected.push(LPAR);
+        let result = lex("(".to_string());
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn lex_rpar() {
+        let mut expected = Vec::new();
+        expected.push(RPAR);
+        let result = lex(")".to_string());
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn lex_quote() {
+        let mut expected = Vec::new();
+        expected.push(QUOTE);
+        let result = lex("\"".to_string());
+        assert_eq!(result, expected)
+    }
+
+
+    #[test]
+    fn lex_tokens() {
+        let mut expected = Vec::new();
+        expected.push(LPAR);
+        expected.push(RPAR);
+        expected.push(QUOTE);
+        let result = lex("()\"".to_string());
+        assert_eq!(result,expected)
     }
 }
 
