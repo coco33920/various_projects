@@ -2,6 +2,12 @@
 
 projects done in Rust to learn the language.
 
+TODO List
+- [x] cat
+- [x] ls
+- [ ] tinysh
+- [ ] calc
+
 # Building
 
 To build the projects do
