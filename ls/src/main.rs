@@ -95,11 +95,11 @@ fn print_dir_entry(entry: DirEntry, options: &Vec<LsArg>) -> (Option<String>, Op
     if options.len() == 0 {
         return option_string(file_name, is_dir);
     }
-    let mut a: (Option<String>, Option<String>) = (None, None);
+    let mut a: (Option<String>, Option<String>) = option_string(file_name.clone(),is_dir);
     options.iter().for_each(|x| {
         match x {
             COLOR => a = option_string(binding.to_string(), is_dir),
-            SORT => a = (None, None)
+            SORT => ()
         }
     });
     a
