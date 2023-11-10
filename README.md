@@ -3,6 +3,7 @@
 projects done in Rust to learn the language.
 
 TODO List
+
 - [x] cat
 - [x] ls
 - [ ] tinysh
@@ -18,7 +19,7 @@ cargo build --release
 
 ## Cat
 
-The first project is doing a cat command just do
+Cat: I hope you know what cat is
 
 ```bash 
 ./target/release/cat <file>
@@ -30,7 +31,7 @@ The first project is doing a cat command just do
 
 ## LS
 
-The second project is an implementation of the command ls, you can use it like this
+LS: A minimalist implementation of ls
 
 ```bash 
 ./target/release/ls <dir>
@@ -69,15 +70,50 @@ And you can combine them to have a _beautiful_ **sorted** output
 
 ## Tinysh
 
-Tinysh is a tiny shell created for education purposes only.
+Tinysh: A minimalistic for educational purpose only shell
 
 TODO List
+
+- [ ] Add built in
+    - [ ] ls
+    - [ ] cat
+    - [ ] cd
+    - [ ] calc
 - [ ] Launch command from the shell in the user PATH
 - [ ] Add new folders to path
 - [ ] Add redirection in files
-  - [ ] \>
-  - [ ] \< 
-  - [ ] \>> 
-  - [ ] \<< 
+    - [ ] \>
+    - [ ] \<
+    - [ ] \>>
+    - [ ] \<<
 - [ ] Add piping
 - [ ] Customize the prompt
+
+## Calc
+
+Calc: A minimalistic calculator built for educational purpose only.
+
+TODO List
+
+- [ ] Lexing of basic operations
+- [ ] Parsing of basic operations
+  - [ ] sum operation
+  - [ ] minus operation
+  - [ ] multiplication operation
+  - [ ] division operation
+  - [ ] mathematical priority
+  - [ ] parenthesis support
+  - [ ] associativity support
+  - [ ] hidden multiplication support
+- [ ] Application REPL
+  - [ ] Add the REPL
+  - [ ] Customize the prompt
+  - [ ] Add colour
+- [ ] Add support for functions
+  - [ ] exp
+  - [ ] ln
+  - [ ] log base a
+  - [ ] cos/sin/tan 
+  - [ ] cosh/sinh/tanh
+- [ ] Defining your own functions
+- [ ] Add RPN mode
