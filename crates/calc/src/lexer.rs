@@ -1,3 +1,5 @@
+use std::str::{Chars, FromStr};
+
 use crate::token::Operator::*;
 use crate::token::Token;
 
@@ -10,16 +12,36 @@ pub fn is_an_allowed_char(character: char) -> bool {
         || character == '('
         || character == ')'
         || character == '"'
+        || character == '.'
 }
 
 
+fn lex_int(mut current_char: char, chars: &mut Vec<char>, mut current_pos: usize, len: usize) -> (i64, usize) {
+    let mut str: String = String::new();
+    while current_pos < len && current_char.is_numeric() {
+        str += &*current_char.to_string();
+
+        current_pos += 1;
+        let a = chars.get(current_pos);
+        match a {
+            Some(t) => current_char = *t,
+            None => break
+        }
+    }
+    (i64::from_str(&str).unwrap(), current_pos)
+}
+
 pub fn lex(input: String) -> Vec<Token> {
-    println!("{input}");
     let mut vec: Vec<Token> = Vec::new();
 
-    let chars = input.as_str().chars();
+    let mut current_pos = 0;
 
-    for current_character in chars {
+    let mut chars = input.as_str().chars().collect::<Vec<char>>();
+
+    let length = input.len();
+
+    while current_pos < input.len() {
+        let current_character: char = chars.get(current_pos).unwrap().to_ascii_lowercase();
         if !is_an_allowed_char(current_character) {
             continue;
         };
@@ -32,7 +54,13 @@ pub fn lex(input: String) -> Vec<Token> {
             ')' => vec.push(Token::RPAR),
             '(' => vec.push(Token::LPAR),
             '"' => vec.push(Token::QUOTE),
-            _ => ()
+            ch => {
+                if ch.is_numeric() {
+                    let (a,b) = lex_int(current_character, &mut chars, current_pos, length);
+                    current_pos = b;
+                    vec.push(Token::INT(a))
+                }
+            }
         }
     }
 
@@ -121,7 +149,23 @@ mod tests {
         expected.push(RPAR);
         expected.push(QUOTE);
         let result = lex("()\"".to_string());
-        assert_eq!(result,expected)
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn lex_simple_int() {
+        let mut expected = Vec::new();
+        expected.push(INT(1));
+        let result = lex("1".to_string());
+        assert_eq!(result,expected);
+    }
+
+    #[test]
+    fn lex_complex_int() {
+        let mut expected = Vec::new();
+        expected.push(INT(100));
+        let result = lex("100".to_string());
+        assert_eq!(result,expected);
     }
 }
 

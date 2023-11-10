@@ -31,7 +31,7 @@ Cat: I hope you know what cat is
 
 ## LS
 
-LS: A minimalist implementation of ls
+LS: a minimalist implementation of ls
 
 ```bash 
 ./target/release/ls <dir>
@@ -70,7 +70,7 @@ And you can combine them to have a _beautiful_ **sorted** output
 
 ## Tinysh
 
-Tinysh: A minimalistic for educational purpose only shell
+Tinysh: a minimalistic for educational purpose only shell
 
 TODO List
 
@@ -91,11 +91,16 @@ TODO List
 
 ## Calc
 
-Calc: A minimalistic calculator built for educational purpose only.
+Calc: a minimalistic calculator built for educational purpose only.
 
 TODO List
 
 - [ ] Lexing of basic operations
+  - [X] Lexing operators
+  - [X] Lexing lpar,rpar,quote
+  - [X] Lexing int
+  - [ ] Lexing floats
+  - [ ] Lexing strings
 - [ ] Parsing of basic operations
   - [ ] sum operation
   - [ ] minus operation
