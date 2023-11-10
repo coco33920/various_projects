@@ -45,6 +45,7 @@ You can just do
 ```
 
 which produces
+
 ![](assets/ls_vanilla.png)
 
 However this one has _options_
