@@ -1,5 +1,6 @@
 use std::env;
 use std::env::Args;
+use std::error::Error;
 use std::fs::read_to_string;
 use std::process::exit;
 
@@ -11,12 +12,18 @@ fn main() {
     }
     let file = args.nth(1);
     match file {
-        Some(name) => cat(name),
-        None => println!("Error!")
+        Some(name) => {
+            let s = cat(name);
+            if s.is_err() {
+                println!("Error while reading file");
+            }
+        }
+        None => println!("Error while reading file")
     };
 }
 
-fn cat(file: String) {
-    let file_read = read_to_string(file).unwrap();
-    print!("{file_read}")
+fn cat(file: String) -> Result<(),Box<dyn Error>> {
+    let content = read_to_string(file)?;
+    println!("{content}");
+    Ok(())
 }
