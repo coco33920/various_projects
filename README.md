@@ -66,3 +66,18 @@ You can sort alphabetically the output with the `--sort` or `-s` option
 
 And you can combine them to have a _beautiful_ **sorted** output
 ![](assets/ls_colors_sort.png)
+
+## Tinysh
+
+Tinysh is a tiny shell created for education purposes only.
+
+TODO List
+- [ ] Launch command from the shell in the user PATH
+- [ ] Add new folders to path
+- [ ] Add redirection in files
+  - [ ] \>
+  - [ ] \< 
+  - [ ] \>> 
+  - [ ] \<< 
+- [ ] Add piping
+- [ ] Customize the prompt
