@@ -1,4 +1,4 @@
-use std::str::{Chars, FromStr};
+use std::str::FromStr;
 
 use crate::token::Operator::*;
 use crate::token::Token;
@@ -31,6 +31,21 @@ fn lex_int(mut current_char: char, chars: &mut Vec<char>, mut current_pos: usize
     (i64::from_str(&str).unwrap(), current_pos)
 }
 
+fn lex_string(mut current_char: char, chars: &mut Vec<char>, mut current_pos: usize, len: usize) -> (String, usize) {
+    let mut str: String = String::new();
+    while current_pos < len && current_char.is_alphanumeric() {
+        str += &*current_char.to_string();
+
+        current_pos += 1;
+        let a = chars.get(current_pos);
+        match a {
+            Some(t) => current_char = *t,
+            None => break
+        }
+    }
+    (str, current_pos)
+}
+
 pub fn lex(input: String) -> Vec<Token> {
     let mut vec: Vec<Token> = Vec::new();
 
@@ -56,9 +71,14 @@ pub fn lex(input: String) -> Vec<Token> {
             '"' => vec.push(Token::QUOTE),
             ch => {
                 if ch.is_numeric() {
-                    let (a,b) = lex_int(current_character, &mut chars, current_pos, length);
+                    let (a, b) = lex_int(current_character, &mut chars, current_pos, length);
                     current_pos = b;
                     vec.push(Token::INT(a))
+                }
+                if ch.is_alphabetic() {
+                    let (a,b) = lex_string(current_character,&mut chars,current_pos,length);
+                    current_pos = b;
+                    vec.push(Token::STR(a))
                 }
             }
         }
@@ -157,7 +177,7 @@ mod tests {
         let mut expected = Vec::new();
         expected.push(INT(1));
         let result = lex("1".to_string());
-        assert_eq!(result,expected);
+        assert_eq!(result, expected);
     }
 
     #[test]
@@ -165,6 +185,14 @@ mod tests {
         let mut expected = Vec::new();
         expected.push(INT(100));
         let result = lex("100".to_string());
+        assert_eq!(result, expected);
+    }
+
+    #[test]
+    fn lex_simple_string() {
+        let mut expected = Vec::new();
+        expected.push(STR("test".to_string()));
+        let result = lex("test".to_string());
         assert_eq!(result,expected);
     }
 }

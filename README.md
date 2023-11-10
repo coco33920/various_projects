@@ -100,7 +100,7 @@ TODO List
   - [X] Lexing lpar,rpar,quote
   - [X] Lexing int
   - [ ] Lexing floats
-  - [ ] Lexing strings
+  - [X] Lexing strings
 - [ ] Parsing of basic operations
   - [ ] sum operation
   - [ ] minus operation
