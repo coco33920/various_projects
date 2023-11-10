@@ -10,7 +10,7 @@ mod lexer;
 mod token;
 
 fn main() {
-    let message = Color::Blue.paint("Welcome to calc v0.1.0 by Charlotte Thomas \ntype info to have information about the program, exit to exit the program, the rest is interpreted by the calculator.\n");
+    let message = Color::Blue.paint("Welcome to calc v0.1.0 by Charlotte Thomas \ntype help for getting help for the commands\n");
     println!("{}", message.to_string());
     loop {
         print!("{}", Color::Cyan.paint("> "));
@@ -26,6 +26,12 @@ fn main() {
                 println!("{}", message)
             }
             "exit" => break,
+            "help" => {
+                let message = Color::Purple.paint(
+                    " Calc v0.1.0 Help \n > info : show infos \n > exit : exit the program \n > help : print this help \n"
+                );
+                println!("{}",message)
+            }
             str => {
                 let a = lex(str.to_string());
                 println!("Lexing of line: {str}");

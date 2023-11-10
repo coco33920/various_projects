@@ -110,13 +110,16 @@ TODO List
   - [ ] parenthesis support
   - [ ] associativity support
   - [ ] hidden multiplication support
-- [ ] Application REPL
+- [X] Application REPL
   - [X] Add the REPL
     - [X] basic REPL
     - [X] colour message
     - [X] colourised prompt
-  - [ ] Customize the prompt
   - [X] Add colour
+- [ ] Config
+  - [ ] Config parser
+  - [ ] Config colours
+  - [ ] Config prompt
 - [ ] Add support for functions
   - [ ] exp
   - [ ] ln
