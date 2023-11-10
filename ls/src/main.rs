@@ -56,7 +56,7 @@ fn ls(dir: String, options: &Vec<LsArg>) {
     let _ = read_dir(dir)
         .unwrap()
         .for_each(|file| {
-            let (a,b) = print_dir_entry(file.unwrap(),options);
+            let (a, b) = print_dir_entry(file.unwrap(), options);
             match a {
                 Some(str) => files.push(str),
                 None => ()
@@ -66,6 +66,15 @@ fn ls(dir: String, options: &Vec<LsArg>) {
                 None => ()
             };
         });
+    for option in options {
+        match option {
+            COLOR => (),
+            SORT => {
+                files.sort();
+                dirs.sort();
+            }
+        }
+    }
     for dir in dirs {
         println!("{dir}");
     }
@@ -95,7 +104,7 @@ fn print_dir_entry(entry: DirEntry, options: &Vec<LsArg>) -> (Option<String>, Op
     if options.len() == 0 {
         return option_string(file_name, is_dir);
     }
-    let mut a: (Option<String>, Option<String>) = option_string(file_name.clone(),is_dir);
+    let mut a: (Option<String>, Option<String>) = option_string(file_name.clone(), is_dir);
     options.iter().for_each(|x| {
         match x {
             COLOR => a = option_string(binding.to_string(), is_dir),
