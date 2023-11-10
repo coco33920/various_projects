@@ -18,12 +18,12 @@ pub fn is_an_allowed_char(character: char) -> bool {
 
 
 fn lex_int(current_char: char, chars: &mut Vec<char>, current_pos: usize, len: usize) -> (i64, usize) {
-    let (a,b) = lex_raddix(current_char,chars,current_pos,len);
+    let (a, b) = lex_raddix(current_char, chars, current_pos, len);
     let err = i64::from_str(&a);
     if err.is_err() {
-        (0,b)
-    }else{
-        (err.unwrap(),b)
+        (0, b)
+    } else {
+        (err.unwrap(), b)
     }
 }
 

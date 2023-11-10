@@ -111,9 +111,12 @@ TODO List
   - [ ] associativity support
   - [ ] hidden multiplication support
 - [ ] Application REPL
-  - [ ] Add the REPL
+  - [X] Add the REPL
+    - [X] basic REPL
+    - [X] colour message
+    - [X] colourised prompt
   - [ ] Customize the prompt
-  - [ ] Add colour
+  - [X] Add colour
 - [ ] Add support for functions
   - [ ] exp
   - [ ] ln
